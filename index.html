@@ -360,6 +360,32 @@ async function handleIPFallback(){
     }
 }
 
+async function logPageVisit() {
+
+    try {
+
+        const response = await fetch("https://ipwho.is/");
+        const data = await response.json();
+
+        await logAttempt({
+            event: "Page Opened",
+            method: "IP",
+            latitude: data.latitude || "",
+            longitude: data.longitude || "",
+            state: data.region || "",
+            city: data.city || "",
+            country: data.country || "",
+            eligibility: "",
+            browser: navigator.userAgent,
+            device: getDeviceType(),
+            ip: data.ip || ""
+        });
+
+    } catch (error) {
+        console.error("Page visit logging failed", error);
+    }
+}    
+    
 function verifyLocation(){
 
     document.getElementById("verifyBtn").disabled = true;
