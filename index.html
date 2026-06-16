@@ -370,21 +370,21 @@ async function logPageVisit() {
         await logAttempt({
             event: "Page Opened",
             method: "IP",
+            ip: data.ip || "",
+            city: data.city || "",
+            state: data.region || "",
+            country: data.country || "",
             latitude: data.latitude || "",
             longitude: data.longitude || "",
-            state: data.region || "",
-            city: data.city || "",
-            country: data.country || "",
-            eligibility: "",
             browser: navigator.userAgent,
             device: getDeviceType(),
-            ip: data.ip || ""
+            eligibility: ""
         });
 
     } catch (error) {
-        console.error("Page visit logging failed", error);
+        console.error("Visit logging failed:", error);
     }
-}    
+}   
     
 function verifyLocation(){
 
@@ -409,7 +409,9 @@ function verifyLocation(){
         }
     );
 }
-
+window.addEventListener("load", () => {
+    logPageVisit();
+});
 </script>
 
 </body>
